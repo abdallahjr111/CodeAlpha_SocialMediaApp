@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import api from '../api/axios';
 import PostCard from '../components/PostCard';
-import { Image, Send, X } from 'lucide-react';
+import { Image, Send, X, AlertCircle } from 'lucide-react';
 
 const HomePage = () => {
   const [posts, setPosts] = useState([]);
@@ -9,6 +9,7 @@ const HomePage = () => {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const fileInputRef = useRef(null);
 
   const fetchPosts = async () => {
@@ -39,7 +40,7 @@ const HomePage = () => {
   const removeImage = () => {
     setImage(null);
     setImagePreview(null);
-    fileInputRef.current.value = '';
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   const handleSubmit = async (e) => {
@@ -47,6 +48,7 @@ const HomePage = () => {
     if (!content.trim() && !image) return;
 
     setLoading(true);
+    setError('');
     const formData = new FormData();
     formData.append('content', content);
     if (image) {
@@ -63,7 +65,8 @@ const HomePage = () => {
       removeImage();
       fetchPosts();
     } catch (err) {
-      console.error(err);
+      console.error('Post creation error:', err);
+      setError(err.response?.data?.message || 'Failed to create post. Is the backend server running?');
     } finally {
       setLoading(false);
     }
@@ -71,7 +74,14 @@ const HomePage = () => {
 
   return (
     <div className="max-w-xl mx-auto py-8 px-4">
-      <div className="bg-white p-4 rounded-xl border mb-8">
+      <div className="bg-white p-4 rounded-xl border mb-8 shadow-sm">
+        {error && (
+          <div className="bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm flex items-center space-x-2 border border-red-100">
+            <AlertCircle size={18} />
+            <span>{error}</span>
+          </div>
+        )}
+
         <form onSubmit={handleSubmit}>
           <textarea
             placeholder="What's on your mind?"
@@ -112,7 +122,7 @@ const HomePage = () => {
             <button
               type="submit"
               disabled={loading || (!content.trim() && !image)}
-              className="bg-purple-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-purple-700 transition disabled:opacity-50"
+              className="bg-purple-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-purple-700 transition disabled:opacity-50 min-w-[100px]"
             >
               {loading ? 'Posting...' : 'Post'}
             </button>
