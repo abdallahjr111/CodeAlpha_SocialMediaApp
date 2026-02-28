@@ -15,12 +15,12 @@ A modern, responsive social media application built with React, Node.js, and SQL
 
 - [Node.js](https://nodejs.org/) (v16 or higher)
 - [npm](https://www.npmjs.com/)
+- [Python 3](https://www.python.org/) (optional, for running E2E tests)
 
 ## Getting Started
 
 ### 1. Clone the repository
 ```bash
-git clone <repository-url>
 cd <repository-directory>
 ```
 
@@ -42,13 +42,29 @@ npm run dev
 ```
 The application will be available at `http://localhost:3000`.
 
-## Testing
+## Testing the Application
 
-To run the automated end-to-end tests (requires Playwright):
-```bash
-# Ensure both servers are running first
-python3 /path/to/verify_full.py
-```
+### Automated End-to-End Testing (Recommended)
+The project includes a comprehensive Playwright script that tests the entire user flow: registration, posting, logging out, liking as another user, and following.
+
+1. **Ensure both servers (Backend & Frontend) are running.**
+2. **Install Playwright dependencies:**
+   ```bash
+   pip install playwright
+   playwright install chromium
+   ```
+3. **Run the verification script:**
+   ```bash
+   python3 verify_full.py
+   ```
+   *Note: Ensure the script path matches where it is stored in your environment.*
+
+### Manual Testing Steps
+1. **Register**: Go to `http://localhost:3000/register` and create an account.
+2. **Post**: On the home feed, write a message and click "Post".
+3. **Logout**: Click the logout icon in the navbar.
+4. **Interact**: Register a second account, and try clicking the Heart icon on the post you made earlier.
+5. **Follow**: Click on the username of the first user to go to their profile, then click "Follow".
 
 ## Tech Stack
 
