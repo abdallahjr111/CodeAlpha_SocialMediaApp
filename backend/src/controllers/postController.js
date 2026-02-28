@@ -2,8 +2,15 @@ const { Post, User, Comment } = require('../models');
 
 exports.createPost = async (req, res) => {
   try {
-    const { content, image } = req.body;
-    const post = await Post.create({ content, image, userId: req.user.id });
+    const { content } = req.body;
+    const image = req.file ? `/uploads/${req.file.filename}` : null;
+
+    const post = await Post.create({
+      content,
+      image,
+      userId: req.user.id
+    });
+
     const fullPost = await Post.findByPk(post.id, {
       include: [{ model: User, as: 'author', attributes: ['id', 'username', 'profilePic'] }]
     });

@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const sequelize = require('./config/database');
 require('./models'); // Import models to establish associations
 
@@ -14,6 +15,7 @@ process.on('uncaughtException', (err) => {
 
 app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Log all requests
 app.use((req, res, next) => {

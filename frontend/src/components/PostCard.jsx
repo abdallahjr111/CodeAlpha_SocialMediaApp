@@ -31,6 +31,8 @@ const PostCard = ({ post }) => {
     }
   };
 
+  const backendUrl = 'http://localhost:5001';
+
   return (
     <div className="bg-white border rounded-xl mb-6 overflow-hidden post-card">
       <div className="p-4 flex items-center space-x-3">
@@ -41,10 +43,20 @@ const PostCard = ({ post }) => {
       </div>
 
       <div className="px-4 py-2">
-        <p className="text-gray-800">{post.content}</p>
+        <p className="text-gray-800 mb-2">{post.content}</p>
       </div>
 
-      <div className="p-4 border-t flex flex-col">
+      {post.image && (
+        <div className="border-t border-b">
+          <img
+            src={`${backendUrl}${post.image}`}
+            alt="Post content"
+            className="w-full h-auto max-h-[500px] object-contain bg-gray-50"
+          />
+        </div>
+      )}
+
+      <div className="p-4 flex flex-col">
         <div className="flex items-center space-x-4 mb-4">
           <button onClick={handleLike} className={`flex items-center space-x-1 like-button ${hasLiked ? 'text-red-500' : 'text-gray-600 hover:text-red-500'}`}>
             <Heart size={20} fill={hasLiked ? 'currentColor' : 'none'} />
