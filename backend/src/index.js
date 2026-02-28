@@ -4,7 +4,7 @@ const sequelize = require('./config/database');
 require('./models'); // Import models to establish associations
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 process.on('uncaughtException', (err) => {
   console.error('UNCAUGHT EXCEPTION! 💥 Shutting down...');

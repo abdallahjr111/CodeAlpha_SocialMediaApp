@@ -31,7 +31,7 @@ npm install
 # The database will be automatically created on the first run
 npm start
 ```
-The server will start on `http://localhost:5000`.
+The server will start on `http://localhost:5001`.
 
 ### 3. Setup the Frontend
 Open a new terminal window:
