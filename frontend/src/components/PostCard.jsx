@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, MessageCircle, Send } from 'lucide-react';
+import { Heart, MessageCircle } from 'lucide-react';
 import api from '../api/axios';
 
 const PostCard = ({ post }) => {
   const [likes, setLikes] = useState(post.likes);
   const [comments, setComments] = useState(post.comments || []);
   const [newComment, setNewComment] = useState('');
-  const [hasLiked, setHasLiked] = useState(false); // Simplified for now
+  const [hasLiked, setHasLiked] = useState(false);
 
   const handleLike = async () => {
     try {
@@ -31,30 +31,18 @@ const PostCard = ({ post }) => {
     }
   };
 
-  const backendUrl = 'http://localhost:5001';
-
   return (
     <div className="bg-white border rounded-xl mb-6 overflow-hidden post-card">
       <div className="p-4 flex items-center space-x-3">
-        <Link to={`/profile/${post.author.username}`} className="w-10 h-10 bg-gradient-to-br from-purple-400 to-blue-400 rounded-full flex items-center justify-center text-white font-bold">
-          {post.author.username[0].toUpperCase()}
+        <Link to={`/profile/${post.author?.username}`} className="w-10 h-10 bg-gradient-to-br from-purple-400 to-blue-400 rounded-full flex items-center justify-center text-white font-bold">
+          {post.author?.username?.[0].toUpperCase()}
         </Link>
-        <Link to={`/profile/${post.author.username}`} className="font-semibold">{post.author.username}</Link>
+        <Link to={`/profile/${post.author?.username}`} className="font-semibold">{post.author?.username}</Link>
       </div>
 
       <div className="px-4 py-2">
         <p className="text-gray-800 mb-2">{post.content}</p>
       </div>
-
-      {post.image && (
-        <div className="border-t border-b">
-          <img
-            src={`${backendUrl}${post.image}`}
-            alt="Post content"
-            className="w-full h-auto max-h-[500px] object-contain bg-gray-50"
-          />
-        </div>
-      )}
 
       <div className="p-4 flex flex-col">
         <div className="flex items-center space-x-4 mb-4">
